@@ -11,3 +11,4 @@
 /registry-service/registry-service.iml
 /web-admin/target/
 /web-admin/web-admin.iml
+/web-admin/src/main/resources/application-dev.properties
