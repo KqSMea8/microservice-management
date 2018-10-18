@@ -1,0 +1,13 @@
+# Created by .ignore support plugin (hsz.mobi)
+/.idea/
+/actuator-service/target/
+/actuator-service/actuator-service.iml
+/gateway-service/gateway-service.iml
+/gateway-service/target/
+/inspector-service/target/
+/inspector-service/inspector-service.iml
+/logs/
+/registry-service/target/
+/registry-service/registry-service.iml
+/web-admin/target/
+/web-admin/web-admin.iml
