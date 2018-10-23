@@ -24,7 +24,13 @@ public class InstanceController {
     @Autowired
     private BaseRegistryAdaptor registry;
 
-    @GetMapping(path = "instances/getByApp", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    /**
+     * get instances list by appname
+     *
+     * @param appName
+     * @return
+     */
+    @GetMapping(path = "instance/list", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity getInstancesByAppName(@RequestParam(name = "app") String appName) {
         if (StringUtils.isEmpty(appName)) {
             return ResponseEntity.badRequest().build();
@@ -36,9 +42,46 @@ public class InstanceController {
 
     }
 
-    @PostMapping(path = "instances/offline", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    /**
+     * offline the instance
+     *
+     * @param appName
+     * @param instanceId
+     * @return
+     */
+    @PostMapping(path = "instance/offline", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity offlineInstance(
             @RequestParam(name = "app") String appName, @RequestParam(name = "instanceId") String instanceId) {
-        return ResponseEntity.ok(registry.updateInstanceStatus(appName, instanceId, "OUT_OF_SERVICE"));
+        return ResponseEntity.ok(registry.offlineInstance(appName, instanceId, "OUT_OF_SERVICE"));
     }
+
+    /**
+     * move the instance back to service
+     *
+     * @param appName
+     * @param instanceId
+     * @return
+     */
+    @PostMapping(path = "instance/online", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity onlineInstance(
+            @RequestParam(name = "app") String appName, @RequestParam(name = "instanceId") String instanceId) {
+        return ResponseEntity.ok(registry.upInstance(appName, instanceId, "UP"));
+    }
+
+
+    /**
+     * 更新instance的meta
+     *
+     * @param appName
+     * @param instanceId
+     * @return
+     */
+    @PostMapping(path = "instance/metadata", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity updateInstanceMeta(@RequestParam(name = "app") String appName,
+                                             @RequestParam(name = "instanceId") String instanceId,
+                                             @RequestParam(name = "key") String key,
+                                             @RequestParam(name = "value") String value) {
+        return ResponseEntity.ok(registry.updateInstanceMeta(appName, instanceId, key, value));
+    }
+
 }

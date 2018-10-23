@@ -57,7 +57,7 @@ public class EurekaRegistryAdaptor implements BaseRegistryAdaptor {
         List<ApplicationEntity> list = new ArrayList<>();
 
         ResponseEntity<String> response = restTemplate.exchange(
-                eurekaServer + "/eureka/apps", HttpMethod.GET, null, String.class);
+                eurekaServer + "/apps", HttpMethod.GET, null, String.class);
         try {
             JsonNode applications = MAPPER.readTree(response.getBody());
 
@@ -79,7 +79,7 @@ public class EurekaRegistryAdaptor implements BaseRegistryAdaptor {
         List<InstanceEntity> instances = new ArrayList<>();
         try {
             ResponseEntity<String> response =
-                    restTemplate.exchange(eurekaServer + "/eureka/apps/" + appName, HttpMethod.GET,
+                    restTemplate.exchange(eurekaServer + "/apps/" + appName, HttpMethod.GET,
                             null, String.class);
             JsonNode application = MAPPER.readTree(response.getBody());
             JsonNode node = application.get("application");
@@ -93,21 +93,57 @@ public class EurekaRegistryAdaptor implements BaseRegistryAdaptor {
 
 
     @Override
-    public String updateInstanceStatus(String appName, String instanceId, String status) {
+    public String offlineInstance(String appName, String instanceId, String status) {
+        ResponseEntity<String> response = updateRequestOperation(appName, instanceId, status, HttpMethod.PUT);
+        // body==null
+        if (response.getStatusCode().equals(HttpStatus.OK)) {
+            return "offline success";
+        }
+        return response.getBody();
 
+    }
+
+
+    @Override
+    public String upInstance(String appName, String instanceId, String status) {
+
+        ResponseEntity<String> response = updateRequestOperation(appName, instanceId, status, HttpMethod.DELETE);
+        // body==null
+        if (response.getStatusCode().equals(HttpStatus.OK)) {
+            return "back to service success";
+        }
+        return response.getBody();
+    }
+
+
+    @Override
+    public String updateInstanceMeta(String appName, String instanceId, String key, String value) {
         try {
             ResponseEntity<String> response = restTemplate.exchange(
-                    eurekaServer + "/eureka/apps/" + appName + "/" + instanceId + "/status?value=" + status, HttpMethod.PUT, null, String.class);
-            LOGGER.info("update app:{} instance:{} status response:{}", appName, instanceId, status);
-            // body==null
+                    eurekaServer + "/apps/" + appName + "/" + instanceId + "/metadata?" + key + "=" + value,
+                    HttpMethod.PUT, null, String.class);
             if (response.getStatusCode().equals(HttpStatus.OK)) {
-                return "offline success";
+                return "update metadata success";
             }
-            return response.getBody();
         } catch (Exception e) {
-            LOGGER.error("read result form eureka server error,url:[/eureka/apps/" + appName + "/" + instanceId + "/status?value=" + status + "]", e);
-            return "";
+            LOGGER.error("read result form eureka server error,url:[/apps/"
+                    + appName + "/" + instanceId + "/metadata?" + key + "=" + value, e);
         }
+        return "update metadata fail";
+    }
 
+    private ResponseEntity<String> updateRequestOperation(String appName, String instanceId,
+                                                          String status, HttpMethod method) {
+        try {
+            ResponseEntity<String> response = restTemplate.exchange(
+                    eurekaServer + "/apps/" + appName + "/" + instanceId + "/status?value=" + status,
+                    method, null, String.class);
+            LOGGER.info("update app:{} instance:{} status response:{}", appName, instanceId, status);
+            return response;
+        } catch (Exception e) {
+            LOGGER.error("read result form eureka server error,url:[/eureka/apps/" + appName + "/"
+                    + instanceId + "/status?value=" + status + "]", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("request error");
+        }
     }
 }

@@ -20,5 +20,11 @@ public interface BaseRegistryAdaptor {
     List<InstanceEntity> listInstanceUnderApp(String appName);
 
 
-    String updateInstanceStatus(String appName, String instanceId, String status);
+    String offlineInstance(String appName, String instanceId, String status);
+
+
+    String upInstance(String appName, String instanceId, String status);
+
+
+    String updateInstanceMeta(String appName, String instanceId, String key, String value);
 }
