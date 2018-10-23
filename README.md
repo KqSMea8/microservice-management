@@ -72,7 +72,7 @@ RESPONSE：
 	
 }
 ```
-#### 4.下线实例
+#### 4.上线实例
 URL: /instance/online?app={appName}&instanceId={instanceId}
 
 METHOD: POST
