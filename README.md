@@ -106,7 +106,7 @@ RESPONSE：
 	
 }
 ```
-#### 实例集群分布,按region和zone
+#### 6.实例集群分布,按region和zone
 URL： cluster?app={appName}
 METHOD: GET
 Params：
@@ -170,7 +170,7 @@ RESPONSE:
 	}
 }
 ```
-#### 按meta匹配应用实例
+#### 7.按meta匹配应用实例
 URL： group?app={appName}&condition={condition}&value=&{value}
 METHOD: GET
 Params：
