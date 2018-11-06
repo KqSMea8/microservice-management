@@ -106,6 +106,101 @@ RESPONSE：
 	
 }
 ```
+#### 实例集群分布,按region和zone
+URL： cluster?app={appName}
+METHOD: GET
+Params：
+    appName        应用名称
+RESPONSE:
+```json
+{
+	default: {    //region
+		default: [{   // zone=default，没有设置默认default
+				instanceId: "172.22.187.91:8882",
+				status: "UP",
+				metadata: {
+					weight: "10",
+					label: "testing"
+				}
+			},
+			{
+				instanceId: "172.22.181.42:8882",
+				status: "UP",
+				metadata: {
+					weight: "10",
+					label: "testing"
+				}
+			},
+			{
+				instanceId: "172.22.187.95:8882",
+				status: "DOWN",
+				metadata: {
+					weight: "10",
+					label: "testing"
+				}
+			},
+			{
+				instanceId: "192.168.1.6:8882",
+				status: "DOWN",
+				metadata: {
+					weight: "10",
+					label: "testing"
+				}
+			}
+		],
+		tc: [{   // zone=tc
+				instanceId: "192.168.1.8:8883",
+				status: "UP",
+				metadata: {
+					zone: "tc",
+					weight: "10",
+					label: "testing"
+				}
+			},
+			{
+				instanceId: "192.168.1.9:8882",
+				status: "UP",
+				metadata: {
+					zone: "tc",
+					weight: "10",
+					label: "testing"
+				}
+			}
+		]
+	}
+}
+```
+#### 按meta匹配应用实例
+URL： group?app={appName}&condition={condition}&value=&{value}
+METHOD: GET
+Params：
+    appName        应用名称
+    condition      匹配条件key，目前只支持meta中的key
+    value          匹配条件value，如果为空，返回为按condition分组，非空的话进行严格匹配
+RESPONSE:   
+```json
+{
+	tc: [{   //按 condition=zone，value=tc匹配
+			instanceId: "192.168.1.8:8883",
+			status: "UP",
+			metadata: {
+				zone: "tc",
+				weight: "10",
+				label: "testing"
+			}
+		},
+		{
+			instanceId: "192.168.1.9:8882",
+			status: "UP",
+			metadata: {
+				zone: "tc",
+				weight: "10",
+				label: "testing"
+			}
+		}
+	]
+}
+```
 ## 路由管理
 todo
 
