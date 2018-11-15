@@ -17,7 +17,6 @@
 - [在线日志](#%E5%9C%A8%E7%BA%BF%E6%97%A5%E5%BF%97)
 
 <!-- /MarkdownTOC -->
-
 ## 注册管理
 #### 1.注册应用列表
 URL: /app/list
