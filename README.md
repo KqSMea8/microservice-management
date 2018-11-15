@@ -172,8 +172,11 @@ RESPONSE:
 ```
 #### 7.按meta匹配应用实例
 URL： group?app={appName}&condition={condition}&value=&{value}
+
 METHOD: GET
+
 Params：
+
     appName        应用名称
     condition      匹配条件key，目前只支持meta中的key
     value          匹配条件value，如果为空，返回为按condition分组，非空的话进行严格匹配
@@ -202,8 +205,36 @@ RESPONSE:
 }
 ```
 ## 路由管理
-todo
+#### 1.查询路由配置列表
+URL：/routes/list
 
+METHOD：GET
+
+Params:
+
+RESPONSE:
+```json
+{
+
+	/servicea-prefix/ **: "servicea-service",
+	/serviceb-prefix/ **: "serviceb-service"
+
+}
+```
+#### 2.刷新路由
+
+URL：/routes/refresh
+
+METHOD:POST
+
+Params:
+
+RESPONSE:
+```json
+{
+    "10.11.12.13:8500": "[]"  // key是网关实例，value是刷新结果【没有消息就是最好的消息】
+}
+```
 ## actuator
 todo
 
