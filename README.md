@@ -1,6 +1,6 @@
 # microservice-management
 微服务治理平台
-
+[TOC]
 ## 注册管理
 #### 1.注册应用列表
 URL: /app/list
