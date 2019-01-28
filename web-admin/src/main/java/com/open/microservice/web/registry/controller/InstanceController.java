@@ -49,7 +49,7 @@ public class InstanceController {
      * @param instanceId
      * @return
      */
-    @PostMapping(path = "instance/offline", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "instance/offline", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity offlineInstance(
             @RequestParam(name = "app") String appName, @RequestParam(name = "instanceId") String instanceId) {
         return ResponseEntity.ok(registry.offlineInstance(appName, instanceId, "OUT_OF_SERVICE"));
@@ -62,7 +62,7 @@ public class InstanceController {
      * @param instanceId
      * @return
      */
-    @PostMapping(path = "instance/online", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "instance/online", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity onlineInstance(
             @RequestParam(name = "app") String appName, @RequestParam(name = "instanceId") String instanceId) {
         return ResponseEntity.ok(registry.upInstance(appName, instanceId, "UP"));
